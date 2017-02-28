@@ -1,3 +1,4 @@
+import datetime
 import uuid
 from getresponse.client import GetResponse
 from getresponse.excs import UniquePropertyError
@@ -6,19 +7,19 @@ new_id = uuid.uuid4().hex
 
 getresponse = GetResponse('8a93e7ef8c2feb0c82986b503081af7e')
 
-account = getresponse.accounts()
-
-# print('1. CUENTA:', account.id, account.name)
+# account = getresponse.accounts()
+#
+# print('1. CUENTA:', account.id, account.time_format)
 #
 # campaigns = getresponse.get_campaigns({'sort': {'name', 'desc'}})
 #
 # print('2. CAMPAÑAS:')
 #
 # for campaign in campaigns:
-#     print('     ', campaign.id, campaign.name)
+#     print('     ', campaign.id, campaign.name, campaign.created_on)
 #
-campaign = getresponse.get_campaign('TzXlN')
-print('3. CAMPAÑA:', campaign.id, campaign.name)
+# campaign = getresponse.get_campaign('TzXlN')
+# print('3. CAMPAÑA:', campaign.id, campaign.name)
 #
 # print('4. CREAR CAMPAÑA:')
 # campaign = {
@@ -35,8 +36,8 @@ contacts = getresponse.get_contacts()
 print('5. CONTACTOS:')
 
 for contact in contacts:
-    print('     ', contact.id, contact.name)
-
+    print('     ', contact.id, contact.created_on, contact.created_on, contact.changed_on)
+#
 
 #
 # contact = getresponse.get_contact('PIaPkN')

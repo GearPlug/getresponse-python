@@ -17,7 +17,10 @@ class Account(object):
 
     @property
     def name(self):
-        return '{} {}'.format(self.first_name, self.last_name)
+        return '{} {}'.format(self.first_name or '', self.last_name or '')
+
+    def __repr__(self):
+        return "<Account(id='{}', name='{}', email='{}'>".format(self.id, self.name, self.email)
 
 
 class AccountManager(object):

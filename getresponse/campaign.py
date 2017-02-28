@@ -1,3 +1,6 @@
+import datetime
+
+
 class Campaign(object):
     def __init__(self, *args, **kwargs):
         self.id = args[0]
@@ -12,6 +15,9 @@ class Campaign(object):
         self.postal = None
         self.opting_types = None
         self.subscription_notifications = None
+
+    def __repr__(self):
+        return "<Campaign(id='{}', name='{}', is_default='{}'>".format(self.id, self.name, self.is_default)
 
 
 class CampaignManager(object):
@@ -45,7 +51,9 @@ class CampaignManager(object):
         if 'isDefault' in kwargs:
             campaign.is_default = kwargs['isDefault']
         if 'createdOn' in kwargs:
-            campaign.created_on = kwargs['createdOn']
+            created_on = kwargs['createdOn']
+            if created_on:
+                campaign.created_on = datetime.datetime.strptime(created_on, '%Y-%m-%dT%H:%M:%S%z')
         if 'description' in kwargs:
             campaign.description = kwargs['description']
         if 'confirmation' in kwargs:

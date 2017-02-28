@@ -1,3 +1,6 @@
+import datetime
+
+
 class Contact(object):
     def __init__(self, *args, **kwargs):
         self.id = args[0]
@@ -14,6 +17,9 @@ class Contact(object):
         self.ip_address = None
         self.activities = None
         self.scoring = None
+
+    def __repr__(self):
+        return "<Contact(id='{}', name='{}', email='{}'>".format(self.id, self.name, self.email)
 
 
 class ContactManager(object):
@@ -51,9 +57,13 @@ class ContactManager(object):
         if 'origin' in kwargs:
             contact.origin = kwargs['origin']
         if 'createdOn' in kwargs:
-            contact.created_on = kwargs['createdOn']
+            created_on = kwargs['createdOn']
+            if created_on:
+                contact.created_on = datetime.datetime.strptime(created_on, '%Y-%m-%dT%H:%M:%S%z')
         if 'changedOn' in kwargs:
-            contact.changed_on = kwargs['changedOn']
+            changed_on = kwargs['changedOn']
+            if changed_on:
+                contact.changed_on = datetime.datetime.strptime(changed_on, '%Y-%m-%dT%H:%M:%S%z')
         if 'campaign' in kwargs:
             contact.campaign = kwargs['campaign']
         if 'timeZone' in kwargs:

@@ -8,10 +8,6 @@ from .excs import UniquePropertyError, NotFoundError
 
 logging.basicConfig(level=logging.INFO)
 
-account_manager = AccountManager()
-campaign_manager = CampaignManager()
-contact_manager = ContactManager()
-
 
 class GetResponse(object):
     API_BASE_URL = 'https://api.getresponse.com/v3'
@@ -20,6 +16,9 @@ class GetResponse(object):
     def __init__(self, *args, **kwargs):
         self.api_key = args[0]
         self.session = requests.Session()
+        self.account_manager = AccountManager()
+        self.campaign_manager = CampaignManager()
+        self.contact_manager = ContactManager()
 
         self.session.headers.update({
             'X-Auth-Token': 'api-key {}'.format(self.api_key),
@@ -328,9 +327,9 @@ class GetResponse(object):
 
     def _create_obj(self, obj_type, data):
         if obj_type == ObjType.ACCOUNT:
-            obj = account_manager.create(data)
+            obj = self.account_manager.create(data)
         elif obj_type == ObjType.CAMPAIGN:
-            obj = campaign_manager.create(data)
+            obj = self.campaign_manager.create(data)
         elif obj_type == ObjType.CONTACT:
-            obj = contact_manager.create(data)
+            obj = self.contact_manager.create(data)
         return obj
