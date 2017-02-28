@@ -1,19 +1,19 @@
 class Contact(object):
     def __init__(self, *args, **kwargs):
         self.id = args[0]
-        self.href = args[1]
-        self.name = args[2]
-        self.email = args[3]
-        self.note = args[4]
-        self.day_of_cycle = args[5]
-        self.origin = args[6]
-        self.created_on = args[7]
-        self.changed_on = args[8]
-        self.campaign = args[9]
-        self.timezone = args[10]
-        self.ip_address = args[11]
-        self.activities = args[12]
-        self.scoring = args[13]
+        self.href = None
+        self.name = None
+        self.email = None
+        self.note = None
+        self.day_of_cycle = None
+        self.origin = None
+        self.created_on = None
+        self.changed_on = None
+        self.campaign = None
+        self.timezone = None
+        self.ip_address = None
+        self.activities = None
+        self.scoring = None
 
 
 class ContactManager(object):
@@ -37,8 +37,31 @@ class ContactManager(object):
         return self.contacts.get(contact_id, None)
 
     def _create(self, *args, **kwargs):
-        contact = Contact(
-            kwargs['contactId'], kwargs['href'], kwargs['name'], kwargs['email'], kwargs['note'], kwargs['dayOfCycle'],
-            kwargs['origin'], kwargs['createdOn'], kwargs['changedOn'], kwargs['campaign'], kwargs['timeZone'],
-            kwargs['ipAddress'], kwargs['activities'], kwargs['scoring'])
+        contact = Contact(kwargs['contactId'])
+        if 'href' in kwargs:
+            contact.href = kwargs['href']
+        if 'name' in kwargs:
+            contact.name = kwargs['name']
+        if 'email' in kwargs:
+            contact.email = kwargs['email']
+        if 'note' in kwargs:
+            contact.note = kwargs['note']
+        if 'dayOfCycle' in kwargs:
+            contact.day_of_cycle = kwargs['dayOfCycle']
+        if 'origin' in kwargs:
+            contact.origin = kwargs['origin']
+        if 'createdOn' in kwargs:
+            contact.created_on = kwargs['createdOn']
+        if 'changedOn' in kwargs:
+            contact.changed_on = kwargs['changedOn']
+        if 'campaign' in kwargs:
+            contact.campaign = kwargs['campaign']
+        if 'timeZone' in kwargs:
+            contact.timezone = kwargs['timeZone']
+        if 'ipAddress' in kwargs:
+            contact.ip_address = kwargs['ipAddress']
+        if 'activities' in kwargs:
+            contact.activities = kwargs['activities']
+        if 'scoring' in kwargs:
+            contact.scoring = kwargs['scoring']
         return contact

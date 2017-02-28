@@ -1,20 +1,71 @@
 class Account(object):
     def __init__(self, *args, **kwargs):
-        self.id = kwargs['accountId']
-        self.first_name = kwargs['firstName']
-        self.last_name = kwargs['lastName']
-        self.email = kwargs['email']
-        self.phone = kwargs['phone']
-        self.company_name = kwargs['companyName']
-        self.state = kwargs['state']
-        self.city = kwargs['city']
-        self.zip_code = kwargs['zipCode']
-        self.contry_code = kwargs['countryCode']
-        self.industry_tag = kwargs['industryTag']
-        self.number_of_employees = kwargs['numberOfEmployees']
-        self.time_format = kwargs['timeFormat']
-        self.href = kwargs['href']
+        self.id = args[0]
+        self.first_name = None
+        self.last_name = None
+        self.email = None
+        self.phone = None
+        self.company_name = None
+        self.state = None
+        self.city = None
+        self.zip_code = None
+        self.country_code = None
+        self.industry_tag = None
+        self.number_of_employees = None
+        self.time_format = None
+        self.href = None
 
     @property
     def name(self):
         return '{} {}'.format(self.first_name, self.last_name)
+
+
+class AccountManager(object):
+    def __init__(self):
+        self.campaigns = {}
+
+    def create(self, obj):
+        if isinstance(obj, list):
+            _list = []
+            for item in obj:
+                campaign = self._create(**item)
+                self.campaigns[campaign.id] = campaign
+                _list.append(campaign)
+            return _list
+
+        campaign = self._create(**obj)
+        self.campaigns[campaign.id] = campaign
+        return campaign
+
+    def get(self, contact_id):
+        return self.campaigns.get(contact_id, None)
+
+    def _create(self, *args, **kwargs):
+        account = Account(kwargs['accountId'])
+        if 'firstName' in kwargs:
+            account.first_name = kwargs['firstName']
+        if 'lastName' in kwargs:
+            account.last_name = kwargs['lastName']
+        if 'email' in kwargs:
+            account.email = kwargs['email']
+        if 'phone' in kwargs:
+            account.phone = kwargs['phone']
+        if 'companyName' in kwargs:
+            account.company_name = kwargs['companyName']
+        if 'state' in kwargs:
+            account.state = kwargs['state']
+        if 'city' in kwargs:
+            account.city = kwargs['city']
+        if 'zipCode' in kwargs:
+            account.zip_code = kwargs['zipCode']
+        if 'countryCode' in kwargs:
+            account.country_code = kwargs['countryCode']
+        if 'industryTag' in kwargs:
+            account.industry_tag = kwargs['industryTag']
+        if 'numberOfEmployees' in kwargs:
+            account.number_of_employees = kwargs['numberOfEmployees']
+        if 'timeFormat' in kwargs:
+            account.time_format = kwargs['timeFormat']
+        if 'href' in kwargs:
+            account.href = kwargs['href']
+        return account

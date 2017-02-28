@@ -1,11 +1,11 @@
 class Campaign(object):
     def __init__(self, *args, **kwargs):
         self.id = args[0]
-        self.href = args[1]
-        self.name = args[2]
-        self.language_code = args[3]
-        self.is_default = args[4]
-        self.created_on = args[5]
+        self.href = None
+        self.name = None
+        self.language_code = None
+        self.is_default = None
+        self.created_on = None
         self.description = None
         self.confirmation = None
         self.profile = None
@@ -35,9 +35,17 @@ class CampaignManager(object):
         return self.campaigns.get(contact_id, None)
 
     def _create(self, *args, **kwargs):
-        campaign = Campaign(
-            kwargs['campaignId'], kwargs['href'], kwargs['name'], kwargs['languageCode'], kwargs['isDefault'],
-            kwargs['createdOn'])
+        campaign = Campaign(kwargs['campaignId'])
+        if 'href' in kwargs:
+            campaign.href = kwargs['href']
+        if 'name' in kwargs:
+            campaign.name = kwargs['name']
+        if 'languageCode' in kwargs:
+            campaign.language_code = kwargs['languageCode']
+        if 'isDefault' in kwargs:
+            campaign.is_default = kwargs['isDefault']
+        if 'createdOn' in kwargs:
+            campaign.created_on = kwargs['createdOn']
         if 'description' in kwargs:
             campaign.description = kwargs['description']
         if 'confirmation' in kwargs:
