@@ -18,7 +18,7 @@ class GetResponse(object):
         self.session = requests.Session()
         self.account_manager = AccountManager()
         self.campaign_manager = CampaignManager()
-        self.contact_manager = ContactManager()
+        self.contact_manager = ContactManager(self.campaign_manager)
 
         self.session.headers.update({
             'X-Auth-Token': 'api-key {}'.format(self.api_key),

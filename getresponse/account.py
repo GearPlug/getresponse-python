@@ -24,24 +24,24 @@ class Account(object):
 
 
 class AccountManager(object):
-    def __init__(self):
-        self.campaigns = {}
+    def __init__(self, *args, **kwargs):
+        self.accounts = {}
 
     def create(self, obj):
         if isinstance(obj, list):
             _list = []
             for item in obj:
-                campaign = self._create(**item)
-                self.campaigns[campaign.id] = campaign
-                _list.append(campaign)
+                account = self._create(**item)
+                # self.accounts[account.id] = account
+                _list.append(account)
             return _list
 
-        campaign = self._create(**obj)
-        self.campaigns[campaign.id] = campaign
-        return campaign
+        account = self._create(**obj)
+        # self.accounts[account.id] = account
+        return account
 
-    def get(self, contact_id):
-        return self.campaigns.get(contact_id, None)
+    def get(self, account_id):
+        return self.accounts.get(account_id, None)
 
     def _create(self, *args, **kwargs):
         account = Account(kwargs['accountId'])

@@ -23,21 +23,22 @@ class Contact(object):
 
 
 class ContactManager(object):
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         self.contacts = {}
+        self.campaign_manager = args[0]
 
     def create(self, obj):
         if isinstance(obj, list):
             _list = []
             for item in obj:
-                campaign = self._create(**item)
-                self.contacts[campaign.id] = campaign
-                _list.append(campaign)
+                contact = self._create(**item)
+                # self.contacts[contact.id] = contact
+                _list.append(contact)
             return _list
 
-        campaign = self._create(**obj)
-        self.contacts[campaign.id] = campaign
-        return campaign
+        contact = self._create(**obj)
+        # self.contacts[contact.id] = contact
+        return contact
 
     def get(self, contact_id):
         return self.contacts.get(contact_id, None)
@@ -65,7 +66,8 @@ class ContactManager(object):
             if changed_on:
                 contact.changed_on = datetime.datetime.strptime(changed_on, '%Y-%m-%dT%H:%M:%S%z')
         if 'campaign' in kwargs:
-            contact.campaign = kwargs['campaign']
+            campaign = self.campaign_manager.create(kwargs['campaign'])
+            contact.campaign = campaign
         if 'timeZone' in kwargs:
             contact.timezone = kwargs['timeZone']
         if 'ipAddress' in kwargs:
