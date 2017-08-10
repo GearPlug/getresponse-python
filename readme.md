@@ -49,6 +49,7 @@ except UniquePropertyError:
 ```
 Get all contacts:
 ```
+contacts = getresponse.get_contacts({'sort': {'name', 'desc'})
 for contact in contacts:
     print('Contact:', contact.id, contact.name)
 ```
@@ -68,7 +69,7 @@ values = {
 }
 
 try:
-    new_contact = getresponse.create_contact(values)
+    contact = getresponse.create_contact(values)
     print('Contact in queue to be created.')
 except UniquePropertyError:
     print("Cannot created: contact's email already exists.")
@@ -77,6 +78,17 @@ Delete a contact:
 ```
 contact = getresponse.delete_contact('CONTACT_ID_HERE')
 ```
-
+Get all custom fields:
+```
+custom_fields = getresponse.get_custom_fields({'sort': {'name', 'desc'})
+for custom_field in custom_fields:
+    print('Custom Field:', custom_field.id, custom_field.name)
+```
+Get a custom field:
+```
+custom_field = getresponse.get_custom_field('CUSTOM_FIELD_ID_HERE')
+if custom_field:
+    print('Custom Field:', custom_field.id, custom_field.name)
+```
 ## Requirements
 - requests

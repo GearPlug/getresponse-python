@@ -21,24 +21,16 @@ class Campaign(object):
 
 
 class CampaignManager(object):
-    def __init__(self, *args, **kwargs):
-        self.campaigns = {}
-
     def create(self, obj):
         if isinstance(obj, list):
             _list = []
             for item in obj:
                 campaign = self._create(**item)
-                # self.campaigns[campaign.id] = campaign
                 _list.append(campaign)
             return _list
 
         campaign = self._create(**obj)
-        # self.campaigns[campaign.id] = campaign
         return campaign
-
-    def get(self, campaign_id):
-        return self.campaigns.get(campaign_id, None)
 
     def _create(self, *args, **kwargs):
         campaign = Campaign(kwargs['campaignId'])

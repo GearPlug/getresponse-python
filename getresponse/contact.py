@@ -24,7 +24,6 @@ class Contact(object):
 
 class ContactManager(object):
     def __init__(self, *args, **kwargs):
-        self.contacts = {}
         self.campaign_manager = args[0]
 
     def create(self, obj):
@@ -32,16 +31,11 @@ class ContactManager(object):
             _list = []
             for item in obj:
                 contact = self._create(**item)
-                # self.contacts[contact.id] = contact
                 _list.append(contact)
             return _list
 
         contact = self._create(**obj)
-        # self.contacts[contact.id] = contact
         return contact
-
-    def get(self, contact_id):
-        return self.contacts.get(contact_id, None)
 
     def _create(self, *args, **kwargs):
         contact = Contact(kwargs['contactId'])

@@ -11,3 +11,4 @@ class ObjType(Enum):
     ACCOUNT = 1
     CAMPAIGN = 2
     CONTACT = 3
+    CUSTOM_FIELD = 4

@@ -4,9 +4,10 @@ from getresponse.enums import HttpMethod, ObjType
 from .account import AccountManager
 from .campaign import CampaignManager
 from .contact import ContactManager
-from .excs import UniquePropertyError, NotFoundError
+from .custom_field import CustomFieldManager
+from .excs import UniquePropertyError, NotFoundError, ValidationError, ForbiddenError
 
-logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 class GetResponse(object):
@@ -19,6 +20,7 @@ class GetResponse(object):
         self.account_manager = AccountManager()
         self.campaign_manager = CampaignManager()
         self.contact_manager = ContactManager(self.campaign_manager)
+        self.custom_field_manager = CustomFieldManager()
 
         self.session.headers.update({
             'X-Auth-Token': 'api-key {}'.format(self.api_key),
@@ -245,6 +247,59 @@ class GetResponse(object):
         """
         return self._request('/contacts/{}'.format(contact_id), ObjType.CONTACT, HttpMethod.DELETE, payload=params)
 
+    def get_custom_fields(self, params):
+        """Retrieve custom fields for contacts
+
+                Args:
+                    params:
+                        fields: List of fields that should be returned. Id is always returned.
+                        Fields should be separated by comma
+
+                        sort: Enable sorting using specified field (set as a key) and order (set as a value).
+                        You can specify multiple fields to sort by.
+
+                        page: Specify which page of results return.
+
+                        perPage: Specify how many results per page should be returned
+                Examples:
+                    get_custom_fields({"fields": "name, fieldType"})
+
+                Returns:
+                    list: CustomField
+                """
+        return self._request('/custom-fields', ObjType.CUSTOM_FIELD, payload=params)
+
+    def get_custom_field(self, custom_field_id, params):
+        """Retrieve a custom field for contacts
+
+                Args:
+                    params:
+                        fields: List of fields that should be returned. Id is always returned.
+                        Fields should be separated by comma
+
+                        sort: Enable sorting using specified field (set as a key) and order (set as a value).
+                        You can specify multiple fields to sort by.
+
+                        page: Specify which page of results return.
+
+                        perPage: Specify how many results per page should be returned
+                Examples:
+                    get_custom_fields({"fields": "name, fieldType"})
+
+                Returns:
+                    list: CustomField
+                """
+        return self._request('/custom-fields/{}'.format(custom_field_id), ObjType.CUSTOM_FIELD, payload=params)
+
+    def create_custom_field(self):
+        return NotImplementedError
+
+    def update_custom_field(self):
+        return NotImplementedError
+
+    def delete_custom_field(self):
+        return NotImplementedError
+
     def get_rss_newsletter(self, rss_newsletter_id):
         raise NotImplementedError
 
@@ -281,15 +336,6 @@ class GetResponse(object):
     def get_form(self):
         return NotImplementedError
 
-    def get_custom_fields(self):
-        return NotImplementedError
-
-    def get_custom_field(self):
-        return NotImplementedError
-
-    def set_custom_field(self):
-        return NotImplementedError
-
     def get_billing_info(self):
         return NotImplementedError
 
@@ -297,6 +343,7 @@ class GetResponse(object):
         if http_method == HttpMethod.GET:
             response = self.session.get(
                 self.API_BASE_URL + api_method, params=payload, timeout=self.TIMEOUT)
+            logger.debug(http_method.name, response.url, response.status_code)
             if response.status_code != 200:
                 return None
             return self._create_obj(obj_type, response.json())
@@ -304,14 +351,18 @@ class GetResponse(object):
         if http_method == HttpMethod.POST:
             response = self.session.post(
                 self.API_BASE_URL + api_method, json=body, params=payload, timeout=self.TIMEOUT)
-            if response.status_code == 400:
+            logger.debug(http_method.name, response.url, response.status_code)
+            if response.status_code == 400 or response.status_code == 409:
                 error = response.json()
+                if error['code'] == 1000:
+                    raise ValidationError(error['message'])
                 if error['code'] == 1001:
                     raise NotFoundError(error['message'])
-            if response.status_code == 409:
-                # Error cuando el ID no es único.
-                error = response.json()
-                raise UniquePropertyError(error['message'])
+                if error['code'] == 1002:
+                    raise ForbiddenError(error['message'])
+                if error['code'] == 1008:
+                    raise UniquePropertyError(error['message'])
+                raise Exception(error['message'])
             if response.status_code == 202:
                 # Respuesta exitosa para un objeto que no se crea inmediatamente.
                 return True
@@ -320,6 +371,7 @@ class GetResponse(object):
         if http_method == HttpMethod.DELETE:
             response = self.session.delete(
                 self.API_BASE_URL + api_method, params=payload, timeout=self.TIMEOUT)
+            logger.debug(http_method.name, response.url, response.status_code)
             if response.status_code == 204:
                 # Respuesta exitosa para un objeto que no se borra inmediatamente.
                 return True
@@ -332,4 +384,6 @@ class GetResponse(object):
             obj = self.campaign_manager.create(data)
         elif obj_type == ObjType.CONTACT:
             obj = self.contact_manager.create(data)
+        elif obj_type == ObjType.CUSTOM_FIELD:
+            obj = self.custom_field_manager.create(data)
         return obj
