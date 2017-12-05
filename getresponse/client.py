@@ -12,10 +12,10 @@ logger = logging.getLogger(__name__)
 
 class GetResponse(object):
     API_BASE_URL = 'https://api.getresponse.com/v3'
-    TIMEOUT = 8
 
-    def __init__(self, *args, **kwargs):
-        self.api_key = args[0]
+    def __init__(self, api_key, timeout=8):
+        self.api_key = api_key
+        self.timeout = timeout
         self.session = requests.Session()
         self.account_manager = AccountManager()
         self.campaign_manager = CampaignManager()
@@ -342,7 +342,7 @@ class GetResponse(object):
     def _request(self, api_method, obj_type, http_method=HttpMethod.GET, body=None, payload=None):
         if http_method == HttpMethod.GET:
             response = self.session.get(
-                self.API_BASE_URL + api_method, params=payload, timeout=self.TIMEOUT)
+                self.API_BASE_URL + api_method, params=payload, timeout=self.timeout)
             logger.debug(http_method.name, response.url, response.status_code)
             if response.status_code != 200:
                 return None
@@ -350,7 +350,7 @@ class GetResponse(object):
 
         if http_method == HttpMethod.POST:
             response = self.session.post(
-                self.API_BASE_URL + api_method, json=body, params=payload, timeout=self.TIMEOUT)
+                self.API_BASE_URL + api_method, json=body, params=payload, timeout=self.timeout)
             logger.debug(http_method.name, response.url, response.status_code)
             if response.status_code == 400 or response.status_code == 409:
                 error = response.json()
@@ -370,7 +370,7 @@ class GetResponse(object):
 
         if http_method == HttpMethod.DELETE:
             response = self.session.delete(
-                self.API_BASE_URL + api_method, params=payload, timeout=self.TIMEOUT)
+                self.API_BASE_URL + api_method, params=payload, timeout=self.timeout)
             logger.debug(http_method.name, response.url, response.status_code)
             if response.status_code == 204:
                 # Respuesta exitosa para un objeto que no se borra inmediatamente.
@@ -386,4 +386,6 @@ class GetResponse(object):
             obj = self.contact_manager.create(data)
         elif obj_type == ObjType.CUSTOM_FIELD:
             obj = self.custom_field_manager.create(data)
+        else:
+            return data
         return obj
