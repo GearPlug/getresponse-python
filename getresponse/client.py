@@ -301,7 +301,7 @@ class GetResponse(object):
         return NotImplementedError
 
     def get_rss_newsletter(self, rss_newsletter_id):
-        raise NotImplementedError
+        return NotImplementedError
 
     def send_newsletter(self):
         return NotImplementedError
