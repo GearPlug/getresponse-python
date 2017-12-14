@@ -120,7 +120,7 @@ class GetResponse(object):
         Returns:
             object: Campaign
         """
-        raise self._request('/campaigns/{}'.format(campaign_id), ObjType.CAMPAIGN, HttpMethod.POST, body)
+        return self._request('/campaigns/{}'.format(campaign_id), ObjType.CAMPAIGN, HttpMethod.POST, body)
 
     def get_campaign_contacts(self, campaign_id, params=None):
         """Retrieve contacts from a campaign
@@ -148,7 +148,7 @@ class GetResponse(object):
         Returns:
             list: Contact
         """
-        raise self._request('/campaigns/{}/contacts'.format(campaign_id), ObjType.CONTACT)
+        return self._request('/campaigns/{}/contacts'.format(campaign_id), ObjType.CONTACT)
 
     def get_contacts(self, params=None):
         """Retrieve contacts from all campaigns
@@ -226,7 +226,7 @@ class GetResponse(object):
         Returns:
             object: Contact
         """
-        raise self._request('/contacts/{}'.format(contact_id), ObjType.CONTACT, HttpMethod.POST, body)
+        return self._request('/contacts/{}'.format(contact_id), ObjType.CONTACT, HttpMethod.POST, body)
 
     def delete_contact(self, contact_id, params=None):
         """Deletes a contact
