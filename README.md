@@ -5,7 +5,7 @@ getresponse is an API wrapper for GetResponse written in Python.
 ## Installing
 
 ```
-pip install getresponse
+pip install getresponse-python
 ```
 
 ## Usage
