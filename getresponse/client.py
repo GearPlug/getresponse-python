@@ -343,7 +343,7 @@ class GetResponse(object):
         if http_method == HttpMethod.GET:
             response = self.session.get(
                 self.API_BASE_URL + api_method, params=payload, timeout=self.timeout)
-            logger.debug(http_method.name, response.url, response.status_code)
+            logger.debug("\"%s %s\" %s", http_method.name, response.url, response.status_code)
             if response.status_code != 200:
                 return None
             return self._create_obj(obj_type, response.json())
@@ -351,7 +351,7 @@ class GetResponse(object):
         if http_method == HttpMethod.POST:
             response = self.session.post(
                 self.API_BASE_URL + api_method, json=body, params=payload, timeout=self.timeout)
-            logger.debug(http_method.name, response.url, response.status_code)
+            logger.debug("\"%s %s\" %s", http_method.name, response.url, response.status_code)
             if response.status_code == 400 or response.status_code == 409:
                 error = response.json()
                 if error['code'] == 1000:
@@ -371,7 +371,7 @@ class GetResponse(object):
         if http_method == HttpMethod.DELETE:
             response = self.session.delete(
                 self.API_BASE_URL + api_method, params=payload, timeout=self.timeout)
-            logger.debug(http_method.name, response.url, response.status_code)
+            logger.debug("\"%s %s\" %s", http_method.name, response.url, response.status_code)
             if response.status_code == 204:
                 # Respuesta exitosa para un objeto que no se borra inmediatamente.
                 return True
