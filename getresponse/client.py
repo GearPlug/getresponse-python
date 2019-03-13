@@ -247,7 +247,7 @@ class GetResponse(object):
         """
         return self._request('/contacts/{}'.format(contact_id), ObjType.CONTACT, HttpMethod.DELETE, payload=params)
 
-    def get_custom_fields(self, params):
+    def get_custom_fields(self, params=None):
         """Retrieve custom fields for contacts
 
                 Args:
