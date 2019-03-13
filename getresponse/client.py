@@ -389,3 +389,10 @@ class GetResponse(object):
         else:
             return data
         return obj
+
+
+class GetResponseEnterprise(GetResponse):
+    def __init__(self, api_key, api_domain, api_base_url='https://api3.getresponse360.com/v3', **kwargs):
+        super().__init__(api_key, **kwargs)
+        self.API_BASE_URL = api_base_url
+        self.session.headers.update({'X-Domain': api_domain})
