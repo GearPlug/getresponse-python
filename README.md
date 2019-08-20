@@ -16,6 +16,12 @@ from getresponse.excs import UniquePropertyError
 
 getresponse = GetResponse('YOUR_API_KEY_HERE')
 ```
+For GetResponse Enterprise platform:
+```
+from getresponse.client import GetResponseEnterprise
+
+getresponse = GetResponseEnterprise('YOUR_API_KEY_HERE', 'YOUR_DOMAIN_NAME', 'YOUR_API_ENDPOINT')
+```
 Get account info:
 ```
 account = getresponse.accounts()
