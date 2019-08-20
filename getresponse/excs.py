@@ -1,14 +1,19 @@
-class UniquePropertyError(Exception):
+class BaseGetResponseError(Exception):
+    def __init__(self, message, response, *args, **kwargs):
+        super().__init__(message, *args, **kwargs)
+        self.response = response
+
+class UniquePropertyError(BaseGetResponseError):
     pass
 
 
-class NotFoundError(Exception):
+class NotFoundError(BaseGetResponseError):
     pass
 
 
-class ValidationError(Exception):
+class ValidationError(BaseGetResponseError):
     pass
 
 
-class ForbiddenError(Exception):
+class ForbiddenError(BaseGetResponseError):
     pass

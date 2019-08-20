@@ -355,13 +355,13 @@ class GetResponse(object):
             if response.status_code == 400 or response.status_code == 409:
                 error = response.json()
                 if error['code'] == 1000:
-                    raise ValidationError(error['message'])
+                    raise ValidationError(error['message'], response=error)
                 if error['code'] == 1001:
-                    raise NotFoundError(error['message'])
+                    raise NotFoundError(error['message'], response=error)
                 if error['code'] == 1002:
-                    raise ForbiddenError(error['message'])
+                    raise ForbiddenError(error['message'], response=error)
                 if error['code'] == 1008:
-                    raise UniquePropertyError(error['message'])
+                    raise UniquePropertyError(error['message'], response=error)
                 raise Exception(error['message'])
             if response.status_code == 202:
                 # Respuesta exitosa para un objeto que no se crea inmediatamente.
