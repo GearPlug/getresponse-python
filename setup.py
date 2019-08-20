@@ -7,9 +7,10 @@ def read(fname):
 
 
 setup(name='getresponse-python',
-      version='0.1.1',
+      version='0.1.2',
       description='Email Marketing Software',
       long_description=read('README.md'),
+      long_description_content_type="text/markdown",
       url='https://github.com/GearPlug/getresponse-python',
       author='Miguel Ferrer',
       author_email='ingferrermiguel@gmail.com',
