@@ -17,6 +17,9 @@ class Contact(object):
         self.ip_address = None
         self.activities = None
         self.scoring = None
+        self.custom_field_values = None
+        self.tags = None
+        self.engagement_score = None
 
     def __repr__(self):
         return "<Contact(id='{}', name='{}', email='{}'>".format(self.id, self.name, self.email)
@@ -54,11 +57,13 @@ class ContactManager(object):
         if 'createdOn' in kwargs:
             created_on = kwargs['createdOn']
             if created_on:
-                contact.created_on = datetime.datetime.strptime(created_on, '%Y-%m-%dT%H:%M:%S%z')
+                contact.created_on = datetime.datetime.strptime(
+                    created_on, '%Y-%m-%dT%H:%M:%S%z')
         if 'changedOn' in kwargs:
             changed_on = kwargs['changedOn']
             if changed_on:
-                contact.changed_on = datetime.datetime.strptime(changed_on, '%Y-%m-%dT%H:%M:%S%z')
+                contact.changed_on = datetime.datetime.strptime(
+                    changed_on, '%Y-%m-%dT%H:%M:%S%z')
         if 'campaign' in kwargs:
             campaign = self.campaign_manager.create(kwargs['campaign'])
             contact.campaign = campaign
@@ -70,4 +75,10 @@ class ContactManager(object):
             contact.activities = kwargs['activities']
         if 'scoring' in kwargs:
             contact.scoring = kwargs['scoring']
+        if 'customFieldValues' in kwargs:
+            contact.custom_field_values = kwargs['customFieldValues']
+        if 'tags' in kwargs:
+            contact.tags = kwargs['tags']
+        if 'engagementScore' in kwargs:
+            contact.engagement_score = kwargs['engagementScore']
         return contact
