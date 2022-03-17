@@ -148,7 +148,7 @@ class GetResponse(object):
         Returns:
             list: Contact
         """
-        return self._request('/campaigns/{}/contacts'.format(campaign_id), ObjType.CONTACT)
+        return self._request('/campaigns/{}/contacts'.format(campaign_id), ObjType.CONTACT, payload=params)
 
     def get_contacts(self, params=None):
         """Retrieve contacts from all campaigns
