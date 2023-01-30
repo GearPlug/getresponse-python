@@ -55,7 +55,7 @@ except UniquePropertyError:
 ```
 Get all contacts:
 ```
-contacts = getresponse.get_contacts({'sort': {'name', 'desc'})
+contacts = getresponse.get_contacts({'sort': {'name', 'desc'}})
 for contact in contacts:
     print('Contact:', contact.id, contact.name)
 ```
@@ -86,7 +86,7 @@ contact = getresponse.delete_contact('CONTACT_ID_HERE')
 ```
 Get all custom fields:
 ```
-custom_fields = getresponse.get_custom_fields({'sort': {'name', 'desc'})
+custom_fields = getresponse.get_custom_fields({'sort': {'name', 'desc'}})
 for custom_field in custom_fields:
     print('Custom Field:', custom_field.id, custom_field.name)
 ```
