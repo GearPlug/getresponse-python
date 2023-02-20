@@ -1,6 +1,7 @@
-# getresponse
+![](https://img.shields.io/badge/version-0.1.4-success) ![](https://img.shields.io/badge/Python-3.8%20|%203.9%20|%203.10%20|%203.11-4B8BBE?logo=python&logoColor=white)
+# getresponse-python
 
-getresponse is an API wrapper for GetResponse written in Python.
+*getresponse-python* is an API wrapper for GetResponse written in Python.
 
 ## Installing
 
@@ -55,7 +56,8 @@ except UniquePropertyError:
 ```
 Get all contacts:
 ```
-contacts = getresponse.get_contacts({'sort': {'name', 'desc'}})
+# Example:
+contacts = getresponse.get_contacts({'sort[createdOn]': 'ASC', 'query[name]': 'juan'})
 for contact in contacts:
     print('Contact:', contact.id, contact.name)
 ```
@@ -83,6 +85,17 @@ except UniquePropertyError:
 Delete a contact:
 ```
 contact = getresponse.delete_contact('CONTACT_ID_HERE')
+```
+Update a contact:
+```
+body = {
+    "name": "Test Name",
+    "customFieldValues": [
+        {"customFieldId": "pLQSI0", "value": ["comment 1234"]},
+        {"customFieldId": "pLQSu3", "value": ["+573108889999"]},
+    ],
+}
+contact = getresponse.update_contact(self, contact_id, body)
 ```
 Get all custom fields:
 ```

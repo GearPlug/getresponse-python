@@ -173,7 +173,7 @@ class GetResponse(object):
                 is done via standard 'like' comparison, what could be sometimes slow.
 
         Examples:
-            get_contacts({"query": {"name": "XYZ"}})
+            get_contacts({"query[email]": email@example.com"})
 
         Returns:
             list: Contact
