@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "getresponse-python"
+version = "0.1.5"
+description = "API wrapper for Get Response written in Python"
+authors = ["Miguel Ferrer <ingferrermiguel@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "getresponse"}]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+requests = "^2.26.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
